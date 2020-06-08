@@ -34,8 +34,8 @@ class Employee
     {
         if ($this->is_working !== 'y') {
             throw new Exception("il dipendente $this->id è stato licenziato");
+        } else {
+            echo "Il dipendente $this->id lavora qui";
         }
-
-        echo "il dipendente $this->id lavora qui";
     }
 }

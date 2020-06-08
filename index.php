@@ -2,51 +2,9 @@
 // include classes
 include_once __DIR__ . '/classes/Executive.php';
 include_once __DIR__ . '/classes/OfficeWorker.php';
-
-// creazione oggetti
-$executives = [
-    [
-        'riccardo', 'murru', 'y', 'CFO'
-    ],
-    [
-        'bill', 'gates', 'y', 'CEO',
-    ],
-    [
-        'steve', 'jobs', 'n', 'president'
-    ]
-];
-
-$office_workers = [
-    [
-        'mark', 'zuckerberg', 'n', 'coffee boy'
-    ],
-    [
-        'satya', 'nadella', 'y', 'secretary'
-    ],
-    [
-        'larry', 'page', 'y', 'handyman'
-    ]
-];
-
-$exec_staff = [];
-$office_staff = [];
-
-foreach ($executives as $executive) {
-    $exec_staff[] = new Executive(...$executive);
-    foreach ($exec_staff as $exec) {
-        $exec->setId($exec->last_name);
-    }
-}
-
-foreach ($office_workers as $office_worker) {
-    $office_staff[] = new OfficeWorker(...$office_worker);
-    foreach ($office_staff as $worker) {
-        $worker->setId($worker->last_name);
-    }
-}
+include_once __DIR__ . '/partials/database.php';
 
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -55,45 +13,45 @@ foreach ($office_workers as $office_worker) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employees</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 
 <body>
-    <h2>Executives</h2>
-    <div class="executives">
-        <?php foreach ($exec_staff as $exec_person) : ?>
-            <h3><?php echo $exec_person->name . ' ' . $exec_person->last_name; ?></h3>
-            <ul>
-                <li><?php echo $exec_person->role; ?></li>
-                <li>
-                    <?php try {
-                        $exec_person->isWorking();
-                    } catch (Exception $e) {
-                        echo 'Oh no! ' . $e->getMessage();
-                    }
-                    ?>
-                </li>
-            </ul>
-        <?php endforeach ?>
-    </div>
+    <main class="ml-5">
+        <h2 class="display-4 my-5">Executives</h2>
+        <div class="executives">
+            <?php foreach ($exec_staff as $exec_person) : ?>
+                <h3 class="text-info ml-4 my-3"><?php echo $exec_person->name . ' ' . $exec_person->last_name; ?></h3>
+                <ul class="list-group w-50">
+                    <li class="list-group-item"><?php echo $exec_person->role; ?></li>
+                    <li class="list-group-item">
+                        <?php try { ?>
+                            <span class="text-success"><?php echo $exec_person->isWorking(); ?></span>
+                        <?php } catch (Exception $e) { ?>
+                            <span class="text-danger"> <?php echo 'Oh no! ' . $e->getMessage(); ?> </span>
+                        <?php } ?>
+                    </li>
+                </ul>
+            <?php endforeach ?>
+        </div>
 
-    <h2>Office Workers</h2>
-    <div class="office-workers">
-        <?php foreach ($office_staff as $office_person) : ?>
-            <h3><?php echo $office_person->name . ' ' . $office_person->last_name; ?></h3>
-            <ul>
-                <li><?php echo $office_person->role; ?></li>
-                <li>
-                    <?php try {
-                        $office_person->isWorking();
-                    } catch (Exception $e) {
-                        echo 'Oh no! ' . $e->getMessage();
-                    }
-                    ?>
-                </li>
-            </ul>
-        <?php endforeach ?>
-    </div>
-
+        <h2 class="display-4 my-5">Office Workers</h2>
+        <div class="office-workers">
+            <?php foreach ($office_staff as $office_person) : ?>
+                <h3 class="text-info ml-4 my-3"><?php echo $office_person->name . ' ' . $office_person->last_name; ?></h3>
+                <ul class="list-group w-50">
+                    <li class="list-group-item"><?php echo $office_person->role; ?></li>
+                    <li class="list-group-item">
+                        <?php try { ?>
+                            <span class="text-success"><?php echo $office_person->isWorking(); ?></span>
+                        <?php } catch (Exception $e) { ?>
+                            <span class="text-danger"> <?php echo 'Oh no! ' . $e->getMessage(); ?> </span>
+                        <?php } ?>
+                    </li>
+                </ul>
+            <?php endforeach ?>
+        </div>
+    </main>
 </body>
 
 </html>
